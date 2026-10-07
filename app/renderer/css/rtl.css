@@ -1,0 +1,125 @@
+/* ═══════════════════════════════════════════════════════════════
+   rtl.css — تنظیمات راست‌به‌چپ و تایپوگرافی فارسی
+   جهت اصلی با dir="rtl" روی <html> تعیین می‌شود. این فایل فقط
+   اصلاحات خاصِ راست‌چین و جزیره‌های چپ‌به‌راست را نگه می‌دارد.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ——————— تایپوگرافی فارسی ——————— */
+html[dir='rtl'] body {
+  /* فاصلهٔ خطوط بیشتر از لاتین لازم است تا چشم بین خطوط گم نشود */
+  line-height: 1.75;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+}
+
+/* نیم‌فاصله (U+200C) باید باریک و بدون شکست باشد */
+html[dir='rtl'] body,
+html[dir='rtl'] input,
+html[dir='rtl'] textarea {
+  word-spacing: normal;
+}
+
+/* ——————— جهت منطقی برای اجزای داخلی ——————— */
+/* همهٔ اجزا از ویژگی‌های منطقی (logical properties) استفاده می‌کنند،
+   پس در rtl.css نیازی به بازنویسی margin/padding چپ و راست نیست.
+   فقط مواردی که واقعاً وابسته به جهت‌اند اینجا می‌آیند. */
+
+/* آیکون‌های جهت‌دار در RTL باید برعکس شوند */
+html[dir='rtl'] .msg--assistant .msg__avatar svg,
+html[dir='rtl'] #sendBtn svg { transform: scaleX(-1); }
+
+/* ——————— جزیره‌های چپ‌به‌راست ——————— */
+/* فیلدهایی که محتوایشان ذاتاً LTR است (آدرس، کلید، نام مدل) */
+html[dir='rtl'] [dir='ltr'] {
+  text-align: left;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  letter-spacing: 0.01em;
+}
+
+html[dir='rtl'] [dir='ltr']::placeholder { text-align: left; direction: ltr; }
+
+/* ——————— جداسازی جهت برای اعداد و متن ترکیبی ——————— */
+/* وقتی عدد لاتین داخل متن فارسی می‌آید، جهت‌دهی به‌هم می‌ریزد.
+   این کلاس‌ها برای مهار آن‌اند. */
+.num-ltr,
+.msg__bubble time {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+/* اعداد در جدول همیشه با ارقام هم‌عرض و جهت ثابت */
+html[dir='rtl'] .table td.num {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+}
+
+/* ستون نام در جدول راست‌چین بماند */
+html[dir='rtl'] .table .table__name { direction: rtl; text-align: right; }
+
+/* ——————— مرکزکردن اعلان‌ها ——————— */
+/* .toast-wrap در main.css با inset-inline-start نوشته شده؛ اینجا
+   صریح برای RTL تنظیم می‌شود تا در هر دو حالت درست بایستد. */
+html[dir='rtl'] .toast-wrap {
+  inset-inline-start: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+/* ——————— نوار پیمایش در سمت درست ——————— */
+html[dir='rtl'] .chat__scroll,
+html[dir='rtl'] .today,
+html[dir='rtl'] .reports,
+html[dir='rtl'] .settings,
+html[dir='rtl'] .foods__table-wrap,
+html[dir='rtl'] .sidebar {
+  direction: rtl;
+}
+
+/* ——————— فرم‌ها ——————— */
+html[dir='rtl'] select {
+  /* فلش select در برخی پوسته‌ها سمت چپ می‌افتد؛ با padding اصلاح می‌شود */
+  padding-inline-start: 11px;
+  padding-inline-end: 11px;
+}
+
+html[dir='rtl'] input[type='number'] { direction: ltr; text-align: right; }
+html[dir='rtl'] input[type='number']::placeholder { direction: rtl; text-align: right; }
+
+/* ——————— چیپ‌ها و برچسب‌ها ——————— */
+html[dir='rtl'] .chip { direction: rtl; }
+html[dir='rtl'] .prompt-chip { direction: rtl; }
+
+/* ——————— حباب پیام ——————— */
+/* گوشهٔ تیز حباب باید سمت «شروع» باشد که در RTL یعنی راست */
+html[dir='rtl'] .msg--user .msg__bubble {
+  border-start-start-radius: var(--r-sm);
+  border-start-end-radius: var(--r-lg);
+}
+html[dir='rtl'] .msg--assistant .msg__bubble {
+  border-start-end-radius: var(--r-sm);
+  border-start-start-radius: var(--r-lg);
+}
+
+/* ——————— کارت عملیات ——————— */
+html[dir='rtl'] .action-card { border-inline-start-width: 3px; border-inline-end-width: 1px; }
+
+/* ——————— تقویم/تاریخ‌ها ——————— */
+/* تاریخ شمسی همیشه راست‌به‌چپ خوانده می‌شود: «۱۵ مهر ۱۴۰۵» */
+html[dir='rtl'] .jalali-date {
+  direction: rtl;
+  unicode-bidi: plaintext;
+}
+
+/* ——————— فاصلهٔ بصری مخصوص فارسی ——————— */
+/* در فارسی نقطه و ویرگول به کلمهٔ قبل می‌چسبند؛ این قاعده از
+   فاصلهٔ اشتباه بعد از نشانه‌ها جلوگیری می‌کند. */
+html[dir='rtl'] .msg__bubble { white-space: pre-wrap; }
+
+/* علامت نقل‌قول فارسی */
+html[dir='rtl'] .msg__bubble q::before { content: '«'; }
+html[dir='rtl'] .msg__bubble q::after { content: '»'; }
+html[dir='rtl'] .msg__bubble q { quotes: none; }

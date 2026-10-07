@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSP در main.js هم از طریق هدر اعمال می‌شود؛ این نسخهٔ پشتیبان است -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
+  <title>دستیار تغذیه و ورزش</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/rtl.css">
+</head>
+<body>
+
+<div id="app" class="app">
+
+  <!-- ═══════════════ نوار کناری ═══════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <div class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/>
+        </svg>
+      </div>
+      <div class="brand__text">
+        <h1>دستیار تغذیه</h1>
+        <p>و مربی ورزشی</p>
+      </div>
+    </div>
+
+    <nav class="nav" aria-label="ناوبری اصلی">
+      <button class="nav__item is-active" data-view="chat" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-3.8-.8L3 21l1.9-5A8.4 8.4 0 1 1 21 11.5z"/></svg>
+        <span>گفت‌وگو</span>
+      </button>
+      <button class="nav__item" data-view="today" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+        <span>امروز</span>
+      </button>
+      <button class="nav__item" data-view="reports" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        <span>گزارش‌ها</span>
+      </button>
+      <button class="nav__item" data-view="foods" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v8a3 3 0 0 0 6 0V3M7 11v10M17 3c-1.5 1.5-2 4-2 7h4c0-3-.5-5.5-2-7zM17 10v11"/></svg>
+        <span>مواد غذایی</span>
+      </button>
+      <button class="nav__item" data-view="settings" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a1.7 1.7 0 0 0-1.5-1H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 2.6 7a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 7 2.6h.1A1.7 1.7 0 0 0 8 1.1V1a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 15 2.6a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1H23a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        <span>تنظیمات</span>
+      </button>
+    </nav>
+
+    <div class="sidebar__personality">
+      <p class="sidebar__label">شخصیت دستیار</p>
+      <div class="persona-switch" id="personaSwitch" role="radiogroup" aria-label="انتخاب شخصیت دستیار"></div>
+    </div>
+
+    <div class="sidebar__streak" id="streakBox">
+      <div class="streak__flame" aria-hidden="true">🔥</div>
+      <div>
+        <p class="streak__value" id="streakValue">۰</p>
+        <p class="streak__label">روز پیوسته</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════ محتوای اصلی ═══════════════ -->
+  <main class="main">
+
+    <!-- هدر -->
+    <header class="topbar">
+      <div class="topbar__title">
+        <h2 id="viewTitle">گفت‌وگو</h2>
+        <p id="viewSubtitle" class="muted">—</p>
+      </div>
+      <div class="topbar__actions">
+        <span class="chip chip--status" id="aiStatusChip" title="وضعیت اتصال هوش مصنوعی">
+          <span class="dot" id="aiStatusDot"></span>
+          <span id="aiStatusText">در حال بررسی…</span>
+        </span>
+        <button class="btn btn--ghost btn--sm" id="newChatBtn" type="button">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          گفت‌وگوی جدید
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══ نمای گفت‌وگو ═══ -->
+    <section class="view view--chat is-active" id="view-chat" aria-label="گفت‌وگو">
+      <div class="chat">
+        <div class="chat__scroll" id="chatScroll" role="log" aria-live="polite" aria-label="پیام‌های گفت‌وگو">
+          <div class="chat__empty" id="chatEmpty">
+            <div class="empty__mark" id="emptyMark" aria-hidden="true">🌿</div>
+            <h3 id="emptyTitle">سلام!</h3>
+            <p id="emptyText" class="muted">در حال بارگذاری…</p>
+            <div class="empty__prompts" id="emptyPrompts"></div>
+          </div>
+          <div class="chat__messages" id="chatMessages"></div>
+        </div>
+
+        <div class="composer">
+          <div class="composer__chips" id="quickChips"></div>
+          <form class="composer__form" id="composerForm" autocomplete="off">
+            <textarea id="composerInput" rows="1"
+                      placeholder="هرچه خوردی یا هر ورزشی که کردی را بنویس…"
+                      aria-label="متن پیام" maxlength="4000"></textarea>
+            <div class="composer__tools">
+              <button class="btn btn--icon" id="stopBtn" type="button" title="توقف پاسخ" hidden>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+              </button>
+              <button class="btn btn--primary" id="sendBtn" type="submit" title="ارسال (Enter)">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L3 10.5l7 3 3 7z"/></svg>
+              </button>
+            </div>
+          </form>
+          <p class="composer__hint muted">
+            <kbd>Enter</kbd> برای ارسال · <kbd>Shift</kbd>+<kbd>Enter</kbd> برای خط جدید
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ نمای امروز ═══ -->
+    <section class="view view--today" id="view-today" aria-label="امروز">
+      <div class="today">
+        <div class="today__date">
+          <h3 id="todayLabel">—</h3>
+          <button class="btn btn--ghost btn--sm" id="todayRefresh" type="button">به‌روزرسانی</button>
+        </div>
+
+        <div class="rings" id="macroRings">
+          <div class="ring" data-metric="kcal">
+            <canvas width="150" height="150"></canvas>
+            <div class="ring__center">
+              <p class="ring__value" data-value>—</p>
+              <p class="ring__label" data-label>کالری</p>
+              <p class="ring__sub" data-sub>—</p>
+            </div>
+          </div>
+          <div class="ring" data-metric="protein">
+            <canvas width="120" height="120"></canvas>
+            <div class="ring__center">
+              <p class="ring__value" data-value>—</p>
+              <p class="ring__label" data-label>پروتئین</p>
+              <p class="ring__sub" data-sub>—</p>
+            </div>
+          </div>
+          <div class="ring" data-metric="water">
+            <canvas width="120" height="120"></canvas>
+            <div class="ring__center">
+              <p class="ring__value" data-value>—</p>
+              <p class="ring__label" data-label>آب</p>
+              <p class="ring__sub" data-sub>—</p>
+            </div>
+          </div>
+          <div class="ring" data-metric="burn">
+            <canvas width="120" height="120"></canvas>
+            <div class="ring__center">
+              <p class="ring__value" data-value>—</p>
+              <p class="ring__label" data-label>سوزانده</p>
+              <p class="ring__sub" data-sub>—</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <header class="card__head">
+              <h4>وعده‌های امروز</h4>
+              <button class="btn btn--ghost btn--sm" id="addMealBtn" type="button">افزودن</button>
+            </header>
+            <div class="meal-groups" id="mealList"></div>
+          </article>
+
+          <article class="card">
+            <header class="card__head">
+              <h4>تمرین‌های امروز</h4>
+              <button class="btn btn--ghost btn--sm" id="addWorkoutBtn" type="button">افزودن</button>
+            </header>
+            <ul class="list" id="workoutList"></ul>
+          </article>
+
+          <article class="card">
+            <header class="card__head"><h4>ثبت سریع</h4></header>
+            <div class="quick-log">
+              <div class="quick-log__row">
+                <label for="quickWeight">وزن (کیلوگرم)</label>
+                <input type="number" id="quickWeight" step="0.1" min="15" max="500" inputmode="decimal" placeholder="۷۴٫۵">
+                <button class="btn btn--ghost btn--sm" id="quickWeightBtn" type="button">ثبت</button>
+              </div>
+              <div class="quick-log__row">
+                <label>آب</label>
+                <div class="btn-group">
+                  <button class="btn btn--ghost btn--sm" data-water="200" type="button">۲۰۰</button>
+                  <button class="btn btn--ghost btn--sm" data-water="250" type="button">۲۵۰</button>
+                  <button class="btn btn--ghost btn--sm" data-water="500" type="button">۵۰۰</button>
+                </div>
+              </div>
+              <div class="quick-log__row">
+                <label for="quickSleep">خواب دیشب (ساعت)</label>
+                <input type="number" id="quickSleep" step="0.5" min="0" max="24" inputmode="decimal" placeholder="۷٫۵">
+                <button class="btn btn--ghost btn--sm" id="quickSleepBtn" type="button">ثبت</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ نمای گزارش‌ها ═══ -->
+    <section class="view view--reports" id="view-reports" aria-label="گزارش‌ها">
+      <div class="reports">
+        <div class="reports__toolbar">
+          <div class="segmented" id="rangePicker" role="group" aria-label="بازهٔ زمانی">
+            <button class="segmented__btn is-active" data-days="7" type="button">۷ روز</button>
+            <button class="segmented__btn" data-days="14" type="button">۱۴ روز</button>
+            <button class="segmented__btn" data-days="30" type="button">۳۰ روز</button>
+            <button class="segmented__btn" data-days="90" type="button">۹۰ روز</button>
+          </div>
+          <span class="muted" id="rangeLabel">—</span>
+        </div>
+
+        <div class="stat-grid" id="statGrid"></div>
+
+        <div class="chart-grid">
+          <article class="card card--chart">
+            <header class="card__head"><h4>روند وزن</h4></header>
+            <div class="chart-box"><canvas id="chartWeight"></canvas></div>
+          </article>
+          <article class="card card--chart">
+            <header class="card__head"><h4>کالری ورودی و خروجی</h4></header>
+            <div class="chart-box"><canvas id="chartCalories"></canvas></div>
+          </article>
+          <article class="card card--chart">
+            <header class="card__head"><h4>ترکیب درشت‌مغذی‌ها (میانگین)</h4></header>
+            <div class="chart-box"><canvas id="chartMacros"></canvas></div>
+          </article>
+          <article class="card card--chart">
+            <header class="card__head"><h4>آب و تمرین</h4></header>
+            <div class="chart-box"><canvas id="chartWater"></canvas></div>
+          </article>
+        </div>
+
+        <article class="card">
+          <header class="card__head"><h4>خلاصهٔ هفته در برابر توصیه‌ها</h4></header>
+          <div id="weekAssess" class="assess"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══ نمای مواد غذایی ═══ -->
+    <section class="view view--foods" id="view-foods" aria-label="مواد غذایی">
+      <div class="foods">
+        <div class="foods__toolbar">
+          <div class="search">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input type="search" id="foodSearch" placeholder="جست‌وجوی غذا… مثلاً «قرمه سبزی»" aria-label="جست‌وجوی غذا">
+          </div>
+          <select id="foodCategory" aria-label="دستهٔ غذایی"></select>
+        </div>
+        <div class="foods__table-wrap">
+          <table class="table" id="foodTable">
+            <thead>
+              <tr>
+                <th>نام</th><th>دسته</th><th>واحد</th>
+                <th>کالری</th><th>پروتئین</th><th>کربوهیدرات</th><th>چربی</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="foodTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ نمای تنظیمات ═══ -->
+    <section class="view view--settings" id="view-settings" aria-label="تنظیمات">
+      <div class="settings">
+
+        <article class="card">
+          <header class="card__head">
+            <h4>اتصال به هوش مصنوعی</h4>
+            <span class="muted">سازگار با هر سرویس OpenAI-compatible</span>
+          </header>
+          <form id="aiForm" class="form-grid" autocomplete="off">
+            <label class="field field--wide">
+              <span>آدرس سرویس (Base URL)</span>
+              <input type="url" id="aiBaseUrl" placeholder="https://api.example.com/v1" dir="ltr" spellcheck="false">
+              <small class="muted">مثال‌ها: <code dir="ltr">https://api.openai.com/v1</code> · <code dir="ltr">http://localhost:11434/v1</code> (Ollama)</small>
+            </label>
+            <label class="field field--wide">
+              <span>کلید دسترسی (API Key)</span>
+              <div class="field__row">
+                <input type="password" id="aiApiKey" placeholder="sk-…" dir="ltr" spellcheck="false">
+                <button class="btn btn--ghost btn--sm" id="toggleKeyBtn" type="button">نمایش</button>
+              </div>
+              <small class="muted" id="keyHint">کلید فقط در کامپیوتر شما و داخل فایل تنظیمات ذخیره می‌شود.</small>
+            </label>
+            <label class="field field--wide">
+              <span>نام مدل</span>
+              <div class="field__row">
+                <input type="text" id="aiModel" placeholder="model-name" dir="ltr" spellcheck="false">
+                <button class="btn btn--ghost btn--sm" id="listModelsBtn" type="button">دریافت فهرست مدل‌ها</button>
+              </div>
+              <select id="modelSelect" class="is-hidden" aria-label="انتخاب از فهرست مدل‌ها"></select>
+            </label>
+            <label class="field">
+              <span>temperature</span>
+              <input type="number" id="aiTemperature" step="0.1" min="0" max="2" inputmode="decimal">
+            </label>
+            <label class="field">
+              <span>max_tokens</span>
+              <input type="number" id="aiMaxTokens" step="256" min="1" max="200000" inputmode="numeric">
+            </label>
+            <label class="field field--check">
+              <input type="checkbox" id="aiStream">
+              <span>پاسخ جریانی (نمایش تدریجی)</span>
+            </label>
+            <div class="form-grid__actions field--wide">
+              <button class="btn btn--primary" type="submit">ذخیرهٔ تنظیمات</button>
+              <button class="btn btn--ghost" id="testAiBtn" type="button">آزمایش اتصال</button>
+              <span class="test-result" id="aiTestResult" role="status"></span>
+            </div>
+          </form>
+        </article>
+
+        <article class="card">
+          <header class="card__head"><h4>مشخصات شما</h4></header>
+          <form id="profileForm" class="form-grid" autocomplete="off">
+            <label class="field"><span>نام</span><input type="text" id="pfName" placeholder="مثلاً مریم"></label>
+            <label class="field"><span>جنسیت</span>
+              <select id="pfSex">
+                <option value="">انتخاب کنید</option>
+                <option value="female">زن</option>
+                <option value="male">مرد</option>
+              </select>
+            </label>
+            <label class="field"><span>سال تولد (شمسی)</span><input type="number" id="pfBirthYear" min="1300" max="1500" placeholder="۱۳۷۰" inputmode="numeric"></label>
+            <label class="field"><span>ماه تولد</span><select id="pfBirthMonth"></select></label>
+            <label class="field"><span>قد (سانتی‌متر)</span><input type="number" id="pfHeight" min="80" max="260" inputmode="numeric"></label>
+            <label class="field"><span>سطح تحرک</span>
+              <select id="pfActivity">
+                <option value="">انتخاب کنید</option>
+                <option value="sedentary">کم‌تحرک (پشت‌میزنشین)</option>
+                <option value="light">تحرک سبک (۱–۳ جلسه در هفته)</option>
+                <option value="moderate">تحرک متوسط (۳–۵ جلسه)</option>
+                <option value="active">پرتحرک (۶–۷ جلسه)</option>
+                <option value="athlete">ورزشکار</option>
+              </select>
+            </label>
+            <label class="field"><span>هدف</span>
+              <select id="pfGoal">
+                <option value="">انتخاب کنید</option>
+                <option value="lose">کاهش وزن</option>
+                <option value="maintain">ثبات وزن</option>
+                <option value="gain">افزایش وزن / عضله</option>
+                <option value="health">سلامت عمومی</option>
+              </select>
+            </label>
+            <label class="field"><span>سرعت هدف (کیلو در هفته)</span><input type="number" id="pfRate" step="0.1" min="0" max="2" inputmode="decimal" placeholder="۰٫۵"></label>
+            <label class="field field--wide"><span>محدودیت غذایی</span>
+              <input type="text" id="pfRestrictions" placeholder="مثلاً گیاهخواری، بدون گلوتن، حساسیت به لبنیات">
+            </label>
+            <label class="field field--wide"><span>نکتهٔ سلامت (اختیاری)</span>
+              <textarea id="pfMedical" rows="2" placeholder="مثلاً دیابت نوع ۲، فشار خون، مصرف دارو…"></textarea>
+            </label>
+            <div class="form-grid__actions field--wide">
+              <button class="btn btn--primary" type="submit">ذخیرهٔ مشخصات</button>
+              <span class="test-result" id="profileResult" role="status"></span>
+            </div>
+          </form>
+          <div class="nutrition-summary" id="nutritionSummary"></div>
+        </article>
+
+        <article class="card">
+          <header class="card__head"><h4>ظاهر برنامه</h4></header>
+          <div class="settings__row">
+            <span>پوسته</span>
+            <div class="segmented" id="themePicker" role="group" aria-label="پوسته">
+              <button class="segmented__btn" data-theme="dark" type="button">تیره</button>
+              <button class="segmented__btn" data-theme="light" type="button">روشن</button>
+              <button class="segmented__btn is-active" data-theme="auto" type="button">خودکار</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <header class="card__head"><h4>داده‌ها</h4></header>
+          <div class="data-info" id="dataInfo"></div>
+          <div class="settings__row">
+            <button class="btn btn--ghost btn--sm" id="openUserDataBtn" type="button">باز کردن پوشهٔ داده‌ها</button>
+            <button class="btn btn--ghost btn--sm" id="showPromptBtn" type="button">نمایش پرامپت سیستم (دیباگ)</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══════════════ مودال ثبت وعده ═══════════════ -->
+<div class="modal" id="mealModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="mealModalTitle">
+    <header class="modal__head">
+      <h3 id="mealModalTitle">ثبت وعده</h3>
+      <button class="btn btn--icon" type="button" data-close aria-label="بستن">✕</button>
+    </header>
+    <form id="mealForm" class="modal__body form-grid" autocomplete="off">
+      <label class="field field--wide"><span>جست‌وجوی غذا</span>
+        <input type="text" id="mealSearch" placeholder="مثلاً «نان سنگک» یا «قرمه سبزی»">
+        <ul class="suggest" id="mealSuggest"></ul>
+      </label>
+      <label class="field"><span>وعده</span>
+        <select id="mealType">
+          <option value="breakfast">صبحانه</option>
+          <option value="lunch" selected>ناهار</option>
+          <option value="dinner">شام</option>
+          <option value="snack">میان‌وعده</option>
+        </select>
+      </label>
+      <label class="field"><span>مقدار</span><input type="number" id="mealQty" step="0.5" min="0.05" value="1" inputmode="decimal"></label>
+      <div class="field field--wide" id="mealPreview"></div>
+      <div class="form-grid__actions field--wide">
+        <button class="btn btn--primary" type="submit">ثبت</button>
+        <button class="btn btn--ghost" type="button" data-close>انصراف</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════ مودال ثبت تمرین ═══════════════ -->
+<div class="modal" id="workoutModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="workoutModalTitle">
+    <header class="modal__head">
+      <h3 id="workoutModalTitle">ثبت تمرین</h3>
+      <button class="btn btn--icon" type="button" data-close aria-label="بستن">✕</button>
+    </header>
+    <form id="workoutForm" class="modal__body form-grid" autocomplete="off">
+      <label class="field field--wide"><span>جست‌وجوی تمرین</span>
+        <input type="text" id="workoutSearch" placeholder="مثلاً «پیاده‌روی سریع» یا «پرس سینه»">
+        <ul class="suggest" id="workoutSuggest"></ul>
+      </label>
+      <label class="field"><span>نوع</span>
+        <select id="workoutKind">
+          <option value="cardio">هوازی</option>
+          <option value="strength">قدرتی</option>
+          <option value="flexibility">انعطافی</option>
+          <option value="sport">ورزشی</option>
+        </select>
+      </label>
+      <label class="field"><span>مدت (دقیقه)</span><input type="number" id="workoutDuration" min="1" max="600" inputmode="numeric"></label>
+      <label class="field"><span>ست</span><input type="number" id="workoutSets" min="1" max="30" inputmode="numeric"></label>
+      <label class="field"><span>تکرار</span><input type="number" id="workoutReps" min="1" max="500" inputmode="numeric"></label>
+      <label class="field"><span>بار (کیلوگرم)</span><input type="number" id="workoutLoad" step="0.5" min="0" max="500" inputmode="decimal"></label>
+      <label class="field"><span>فشار (RPE)</span><input type="number" id="workoutRpe" min="1" max="10" inputmode="numeric"></label>
+      <div class="form-grid__actions field--wide">
+        <button class="btn btn--primary" type="submit">ثبت</button>
+        <button class="btn btn--ghost" type="button" data-close>انصراف</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════ اعلان ═══════════════ -->
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+<!-- ترتیب بارگذاری مهم است: ماژول‌های UMD باید قبل از مصرف‌کننده‌ها باشند -->
+<script src="../lib/jalaali.js"></script>
+<script src="js/nutrition.js"></script>
+<script src="js/exercise.js"></script>
+<script src="js/nlp.js"></script>
+<script src="vendor/chart.umd.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/ai-client.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

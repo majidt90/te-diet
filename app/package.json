@@ -1,0 +1,70 @@
+{
+  "name": "te-diet",
+  "productName": "دستیار تغذیه و ورزش",
+  "version": "1.0.0",
+  "description": "مشاور تغذیه و مربی ورزشی هوشمند — اپلیکیشن دسکتاپ آفلاین-اول با رابط کاملاً فارسی",
+  "author": "te-diet",
+  "license": "MIT",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "postinstall": "node scripts/postinstall.js",
+    "test": "node --test \"test/**/*.test.js\"",
+    "pack": "electron-builder --win --dir",
+    "dist": "electron-builder --win"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.2.1",
+    "electron": "^44.6.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "ir.tediet.desktop",
+    "productName": "Dastyar-e Taghziye",
+    "copyright": "Copyright © 2026 te-diet",
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3/**"
+    ],
+    "files": [
+      "main.js",
+      "preload.js",
+      "config.json",
+      "lib/**/*",
+      "renderer/**/*",
+      "data/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "icon": "build/icon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "دستیار تغذیه و ورزش",
+      "deleteAppDataOnUninstall": false
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    }
+  }
+}
